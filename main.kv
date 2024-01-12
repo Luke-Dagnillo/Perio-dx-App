@@ -1,0 +1,29 @@
+#:include kv/MainMenuWindow.kv
+#:include kv/TestInstructionsWindow.kv
+#:include kv/LoginWindow.kv
+#:include kv/CreateAccountWindow.kv
+#:include kv/CameraWindow.kv
+#:include kv/TestHistoryWindow.kv
+
+GridLayout:
+    cols:1
+    ScreenManager:
+        id: screen_manager
+        LoginWindow:
+            name: "login_screen"
+            id: login
+        CreateAccountWindow:
+            name: "create_account"
+            id: create_account 
+        MainMenuWindow:
+            name: "main_menu"
+            id: main_menu
+        TestInstructionsWindow:
+            name: "test_instructions"
+            id: test_instructions 
+        CameraWindow:
+            name: "camera_window"
+            id: camera_window 
+        TestHistoryWindow:
+            name: "test_history_window"
+            id: test_history_window

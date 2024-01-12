@@ -1,0 +1,85 @@
+
+<LoginWindow>:
+    id: login
+    name: "login"
+    #md_bg_color: [204/255, 153/255, 255/255,1]
+    # MDCard:
+    #     size_hint: None, None
+    #     size: 450, 800 
+    #     pos_hint: {"center_x": .5, "center_y":.5}
+    #     elevation: 15
+    #     #md_bg_color: [229/255, 204/255, 255/255,1]
+    #     padding: 25
+    #     spacing: 25 
+    #     orientation: 'vertical'
+
+    #adding items to the card
+    FloatLayout:
+        
+        Image:
+            source: 'graphics/PerioLogo.png'
+            size_hint: None, None
+            pos_hint: {"center_x": .5, "y":.55}
+            size_hint: .5, .5
+
+        MDTextField:
+            id: email
+            hint_text: "email"
+            icon_right: "account"
+            mode: "round"
+            size_hint_x: None
+            width: 200
+            font_size: 30
+            pos_hint: {'center_x': .5,'y': .5}
+            size_hint: (.8,.1)
+
+        MDLabel:
+            id: blank
+            text: "User and/or password required"
+            pos_hint: {'x': .2,'y': .4}
+            size_hint: (.8,.1)
+            
+        MDTextField:
+            id: password
+            hint_text: "password"
+            mode: "round"
+            width: 200
+            font_size: 30
+            pos_hint: {'center_x': .5,'y': .3}
+            size_hint: (.8,.1)
+            password: True
+
+        MDIconButton:
+            icon: "eye-off"
+            pos_hint: {'center_x': 0.87, 'y': 0.31}
+            on_release: 
+                app.toggle_password_visibility(password, self)
+
+        MDLabel:
+            id: error
+            text: ""
+            color: (1, 0, 0, 1)
+            pos_hint: {'x': .2,'y': .23}
+            size_hint: (.8,.1)
+
+        Button:
+            text: "Log In"
+            font_size: 40
+            background_color: (0/255, 239/255, 255/255)
+            pos_hint: {'center_x': .5,'y': .15}
+            size_hint: (.8,.1)
+            on_release: 
+                app.login_user(root.ids.email.text, root.ids.password.text)
+                # app.change_screen("main_menu")
+                root.manager.transition.direction = "left"
+
+                
+        Button:
+            text: "Create An Account"
+            font_size: 40
+            background_color: (0/255, 239/255, 255/255)
+            pos_hint: {'center_x': .5,'y': .05}
+            size_hint: (.8,.1)
+            on_release: 
+                app.change_screen("create_account")
+                root.manager.transition.direction = "left"

@@ -1,0 +1,29 @@
+
+<TestHistoryWindow>:
+    id: test_history_window
+    name: "test_history_window"
+
+    BoxLayout:
+        orientation: 'vertical'
+        
+        Image:
+            source: 'graphics/PerioLogo.png'
+            size_hint_y: None
+            height: dp(200)
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            BoxLayout:
+                id: history_layout
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+
+        MDFillRoundFlatButton:
+            text: "Back"
+            pos_hint: {'center_x': 0.5}
+            on_release: 
+                app.change_screen('main_menu')
+                root.manager.transition.direction = "down"

@@ -1,0 +1,60 @@
+
+<MainMenuWindow>:
+    id: main_menu
+    name:"main_menu"
+    FloatLayout:
+
+        Image:
+            source: 'graphics/PerioLogo.png'
+            size_hint: None, None
+            size_hint: .45, .5
+            pos_hint: {"center_x": .5, "y":.55} 
+
+        Button:
+            id: "take__test"
+            text: "Begin a Test"
+            font_size: 16
+            bold: True 
+            background_color: (0/255, 239/255, 255/255)
+            pos_hint: {'center_x': .5,'y': .35}
+            size_hint: (.8,.1)
+            on_release: 
+                app.change_screen("camera_window")
+                root.manager.transition.direction = "left"
+
+        Button:
+            id: "test_instructions_button"
+            text: "View Test Instructions"
+            font_size: 16
+            bold: True
+            background_color: (0/255, 239/255, 255/255)
+            pos_hint: {'center_x': .5,'y': .25}
+            size_hint: (.8,.1)
+            on_release: 
+                app.change_screen("test_instructions") 
+                root.manager.transition.direction = "left"
+
+        Button:
+            id: "view_results_button"
+            text: "View Test Results"
+            font_size: 16
+            bold: True
+            background_color: (0/255, 239/255, 255/255)
+            pos_hint: {'center_x': .5,'y': .15}
+            size_hint: (.8,.1) 
+            on_release: 
+                app.change_screen('test_history_window')
+                root.manager.transition.direction = "up"       
+                app.populate_test_history()
+     
+        Button:
+            id: "log_out_button"
+            text: "Log Out"
+            font_size: 16
+            bold: True
+            background_color: (0/255, 239/255, 255/255)
+            pos_hint: {'center_x': .5,'y': .05}
+            size_hint: (.8,.1) 
+            on_release: 
+                app.change_screen("login_screen")
+                root.manager.transition.direction = "right"

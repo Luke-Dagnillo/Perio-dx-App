@@ -1,0 +1,26 @@
+
+<CameraWindow>:
+    name: "camera_window"
+    id: camera_window
+    BoxLayout:
+        orientation: 'vertical'
+        
+        Image:
+            id: img
+            allow_stretch: True
+
+        MDFillRoundFlatButton:
+            text: "Take Photo"
+            pos_hint: {'center_x': 0.5}
+            on_release: 
+                app.capture_image()
+
+        MDFillRoundFlatButton:
+            text: "Back"
+            pos_hint: {'center_x': 0.5}
+            on_release: 
+                app.change_screen('main_menu')
+                root.manager.transition.direction = "right"
+
+
+ 
