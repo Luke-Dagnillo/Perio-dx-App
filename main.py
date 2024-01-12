@@ -278,7 +278,6 @@ class MainApp(MDApp):
 
 
 
-
 # cProfile.run('MainApp().run()', 'profile_stats') # use for getting profile runtime statistics
             
 if __name__ == '__main__':
