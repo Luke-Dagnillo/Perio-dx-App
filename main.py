@@ -14,6 +14,8 @@ from kivy.clock import Clock
 from kivy.logger import Logger
 from kivy.graphics.texture import Texture
 from kivy.uix.label import Label
+from kivymd.uix.list import TwoLineListItem
+from kivy.uix.modalview import ModalView
 from kivy.metrics import dp
 
 import cv2
@@ -25,6 +27,7 @@ from firebase_admin import db
 
 from red_recognition import RedRecognition
 from user import User, UserManager
+from test_result_detail import TestResultDetail
 
 
 # login window
@@ -77,7 +80,11 @@ class CameraWindow(Screen):
 
 #create test history  window
 class TestHistoryWindow(Screen):
-    pass
+    def on_test_result_tap(self, antigen, result, date):
+        # This function should be bound to an on_release event of the test result widget
+        detail_view = TestResultDetail(antigen, result, date)
+        detail_view.open()
+    
 
 
 
@@ -236,19 +243,20 @@ class MainApp(MDApp):
         test_history_data = self.retrieve_test_history(self.user_id)
         print(f"Retrieved test history data: {test_history_data}")
 
-        # Create a label for each test entry
         for test_entry in test_history_data:
-            entry_widget = Label(
-                text=f"Antigen: {test_entry['antigen']} | "
-                    f"Result: {test_entry['result']} | "
-                    f"Date: {test_entry['date']}",
-                size_hint_y=None,
-                height=dp(40),
-                color=(0, 0, 0, 1),  # Set text color to black
+            # Format the date to exclude the exact time, if that's your preference
+            date_formatted = datetime.datetime.strptime(test_entry['date'], "%Y-%m-%d %H:%M:%S").strftime("%b %d, %Y")
+            
+            entry_widget = TwoLineListItem(
+                text=f"{test_entry['antigen']}",
+                secondary_text=f"Result: {test_entry['result']} Concentration | Date: {date_formatted}",
+                # Add an on_release event to handle clicks on the list item
+                on_release=lambda x=test_entry: self.show_test_detail(x)
             )
             history_layout.add_widget(entry_widget)
 
         print(f"Children in history_layout: {history_layout.children}")
+
 
     def retrieve_test_history(self, user_id):
         # Make sure you have the correct path to the user's test results
@@ -270,8 +278,9 @@ class MainApp(MDApp):
                 'date': test_data.get('date', 'Unknown')
             })
 
+        # Sort the test results by date in descending order
+        formatted_results.sort(key=lambda x: datetime.datetime.strptime(x['date'], "%Y-%m-%d %H:%M:%S"), reverse=True)
         return formatted_results
-
 
 
 
