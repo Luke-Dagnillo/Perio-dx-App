@@ -84,7 +84,18 @@ class TestHistoryWindow(Screen):
         # This function should be bound to an on_release event of the test result widget
         detail_view = TestResultDetail(antigen, result, date)
         detail_view.open()
-    
+        
+    def show_test_detail(self, test_entry):
+        # Assuming test_entry is a dictionary with all the info you need
+        antigen = test_entry['antigen']
+        result = test_entry['result']
+        date = test_entry['date']  # You might need to format this as per your requirements
+
+        # Now, create an instance of TestResultDetail and pass the data
+        detail_view = TestResultDetail(antigen=antigen, result=result, date=date)
+
+        # Open the modal view
+        detail_view.open()
 
 
 
@@ -251,8 +262,9 @@ class MainApp(MDApp):
                 text=f"{test_entry['antigen']}",
                 secondary_text=f"Result: {test_entry['result']} Concentration | Date: {date_formatted}",
                 # Add an on_release event to handle clicks on the list item
-                on_release=lambda x=test_entry: self.show_test_detail(x)
+                on_release=lambda widget, x=test_entry: self.root.ids.screen_manager.get_screen('test_history_window').show_test_detail(x) # type: ignore
             )
+
             history_layout.add_widget(entry_widget)
 
         print(f"Children in history_layout: {history_layout.children}")

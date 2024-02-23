@@ -14,7 +14,7 @@ class TestResultDetail(ModalView):
 
         # Add widgets with the test details
         content.add_widget(Label(text=f'Antigen: {antigen}', size_hint_y=None, height=30))
-        content.add_widget(Label(text=f'Result: {result}', size_hint_y=None, height=30))
+        content.add_widget(Label(text=f'Result: {result} Concentration', size_hint_y=None, height=30))
         content.add_widget(Label(text=f'Date: {date}', size_hint_y=None, height=30))
 
         # Close button
