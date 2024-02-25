@@ -1,5 +1,6 @@
 import cProfile
 
+# Kivy imports
 import kivy
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -17,7 +18,18 @@ from kivy.uix.label import Label
 from kivymd.uix.list import TwoLineListItem
 from kivy.uix.modalview import ModalView
 from kivy.metrics import dp
+from kivy.utils import platform
+# Conditional import for Android-specific functionality
+if platform == 'android':
+    from android.permissions import request_permissions, Permission
+    # Define any Android-specific functionality here
+else:
+    # Mock or no-op versions of Android-specific functionality for non-Android platforms
+    def request_permissions(*args, **kwargs):
+        pass  # No operation if not on Android
 
+
+# General Python imports
 import cv2
 import numpy as np
 import datetime
@@ -25,6 +37,7 @@ import requests
 import json 
 from firebase_admin import db
 
+# Custom imports
 from red_recognition import RedRecognition
 from user import User, UserManager
 from test_result_detail import TestResultDetail
@@ -111,6 +124,11 @@ class MainApp(MDApp):
         return Builder.load_file('main.kv')  # Assuming 'main.kv' contains the ScreenManager
     
     def on_start(self):
+        # Check if running on Android before requesting permissions
+        if platform == 'android':
+            request_permissions([Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
+        super().on_start()
+        # Proceed with other initialization
         self.root.ids.screen_manager.get_screen('camera_window').start_camera() # type: ignore
 
     def on_stop(self):
@@ -204,7 +222,7 @@ class MainApp(MDApp):
                 # Account creation successful
                 self.show_dialog("Success", "Account created successfully.")
                 # Further logic (e.g., redirect to login screen)
-                self.change_screen("login_screen")
+                self.change_screen("main_menu")
             else:
                 # Handle other potential failures
                 self.show_dialog("Error", "Failed to create account.")
