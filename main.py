@@ -18,6 +18,7 @@ from kivy.uix.label import Label
 from kivymd.uix.list import TwoLineListItem
 from kivy.uix.modalview import ModalView
 from kivy.metrics import dp
+from kivy.properties import StringProperty
 from kivy.utils import platform
 # Conditional import for Android-specific functionality
 if platform == 'android':
@@ -43,6 +44,10 @@ from user import User, UserManager
 from test_result_detail import TestResultDetail
 
 
+def read_text_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return file.read()
+
 # login window
 class LoginWindow(Screen):
     def on_pre_leave(self, *args):
@@ -66,6 +71,11 @@ class MainMenuWindow(Screen):
 
 #create test instructions window
 class TestInstructionsWindow(Screen):
+    instructions_text = StringProperty('')
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.instructions_text = read_text_file("kv/test_instructions_test.txt")
     pass
 
 class CameraWindow(Screen):
