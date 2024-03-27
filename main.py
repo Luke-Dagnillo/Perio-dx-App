@@ -78,7 +78,7 @@ class TestInstructionsWindow(Screen):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.instructions_text = read_text_file("kv/test_instructions_test.txt")
+        self.instructions_text = read_text_file("kv/test_instructions_text.txt")
     pass
 
 
