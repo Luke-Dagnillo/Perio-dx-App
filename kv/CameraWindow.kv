@@ -2,18 +2,21 @@
 <CameraWindow>:
     name: "camera_window"
     id: camera_window
+
     BoxLayout:
         orientation: 'vertical'
         
-        Image:
-            id: img
+        Camera:
+            id: camera
+            play: False  # This will be overridden by the on_enter method
+            resolution: (1280, 720)  # Adjust as needed
             allow_stretch: True
 
         MDFillRoundFlatButton:
             text: "Take Photo"
             pos_hint: {'center_x': 0.5}
             on_release: 
-                app.capture_image()
+                app.capture_image()  # Adjust or implement as needed
 
         MDFillRoundFlatButton:
             text: "Back"
@@ -21,6 +24,3 @@
             on_release: 
                 app.change_screen('main_menu')
                 root.manager.transition.direction = "right"
-
-
- 

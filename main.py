@@ -5,6 +5,7 @@ import kivy
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
+from kivy.uix.camera import Camera
 from kivymd.uix.button import MDFlatButton
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen, ScreenManager
@@ -37,6 +38,8 @@ import datetime
 import requests
 import json 
 from firebase_admin import db
+from PIL import Image
+
 
 # Custom imports
 from red_recognition import RedRecognition
@@ -78,29 +81,19 @@ class TestInstructionsWindow(Screen):
         self.instructions_text = read_text_file("kv/test_instructions_test.txt")
     pass
 
+
 class CameraWindow(Screen):
-    def start_camera(self):
-        # Start capturing video from the camera
-        self.capture = cv2.VideoCapture(0)
-        Clock.schedule_interval(self.update, 1.0 / 30.0)  # Update at 30 FPS
+    def on_enter(self, *args):
+        super(CameraWindow, self).on_enter(*args)
+        # Start the camera
+        self.ids.camera.play = True
 
-    def stop_camera(self):
-        Clock.unschedule(self.update)
-        self.capture.release()
+    def on_leave(self, *args):
+        super(CameraWindow, self).on_leave(*args)
+        # Stop t he camera
+        self.ids.camera.play = False
 
-    def update(self, dt):
-        ret, frame = self.capture.read()
-        if ret:
-            # Flip the frame vertically
-            flipped_frame = cv2.flip(frame, 0)
-            # Ensure it's a NumPy array
-            buf = np.array(flipped_frame)
-            # Convert it to texture
-            buf_string = buf.tostring()  # type: ignore
-            texture = Texture.create(size=(frame.shape[1], frame.shape[0]), colorfmt='bgr')
-            texture.blit_buffer(buf_string, colorfmt='bgr', bufferfmt='ubyte')
-            self.ids.img.texture = texture
-
+    
 #create test history  window
 class TestHistoryWindow(Screen):
     def on_test_result_tap(self, antigen, result, date):
@@ -112,7 +105,7 @@ class TestHistoryWindow(Screen):
         # Assuming test_entry is a dictionary with all the info you need
         antigen = test_entry['antigen']
         result = test_entry['result']
-        date = test_entry['date']  # You might need to format this as per your requirements
+        date = test_entry['date']  
 
         # Now, create an instance of TestResultDetail and pass the data
         detail_view = TestResultDetail(antigen=antigen, result=result, date=date)
@@ -139,10 +132,10 @@ class MainApp(MDApp):
             request_permissions([Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
         super().on_start()
         # Proceed with other initialization
-        self.root.ids.screen_manager.get_screen('camera_window').start_camera() # type: ignore
+        self.root.ids.screen_manager.get_screen('camera_window').on_enter() # type: ignore
 
     def on_stop(self):
-        self.root.ids.screen_manager.get_screen('camera_window').stop_camera()  # type: ignore
+        self.root.ids.screen_manager.get_screen('camera_window').on_leave()  # type: ignore
 
     def change_screen(self, screen_name):
         screen_manager = self.root.ids.screen_manager  # type: ignore
@@ -162,16 +155,24 @@ class MainApp(MDApp):
         )
         dialog.open()
 
+   
     def capture_image(self):
-        camera_window = self.root.ids.screen_manager.get_screen('camera_window')  # type: ignore
-        ret, frame = camera_window.capture.read()
-
-        image_path = 'test_strip.png'
-
-        if ret:
-            # Save the frame as an image file
-            cv2.imwrite('test_strip.png', frame)
-        
+        camera_window = self.root.ids.screen_manager.get_screen('camera_window') #type: ignore
+        camera_texture = camera_window.ids.camera.texture
+        if camera_texture:
+            # Extract image data from the texture
+            size = camera_texture.size
+            pixels = camera_texture.pixels
+            # Convert pixel data to an array
+            arr = np.frombuffer(pixels, dtype=np.uint8).reshape(size[1], size[0], 4)
+            # Convert from kivy's texture format (RGBA) to standard RGB for PIL
+            arr = arr[:, :, :-1]  # Drop the alpha channel
+            
+            # Create an image using PIL
+            img = Image.fromarray(arr)
+            image_path = 'test_strip.png'
+            img.save(image_path)
+            
             # Now run the red recognition algorithm on this image
             red_recognizer = RedRecognition(image_path)
             result = red_recognizer.run()
