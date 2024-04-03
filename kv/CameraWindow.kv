@@ -1,26 +1,32 @@
 
 <CameraWindow>:
     name: "camera_window"
-    id: camera_window
-
     BoxLayout:
         orientation: 'vertical'
         
         Camera:
             id: camera
-            play: False  # This will be overridden by the on_enter method
+            play: False  # Controlled by on_enter and on_leave in the Python code
             resolution: (1280, 720)  # Adjust as needed
             allow_stretch: True
-
+            
+            canvas.before:
+                PushMatrix
+                Rotate:
+                    angle: -90  # Rotate 90 degrees clockwise
+                    origin: self.center  # Use the center of the camera widget as the rotation origin
+            canvas.after:
+                PopMatrix
+                
         MDFillRoundFlatButton:
             text: "Take Photo"
             pos_hint: {'center_x': 0.5}
             on_release: 
                 app.capture_image()  # Adjust or implement as needed
-
+                
         MDFillRoundFlatButton:
             text: "Back"
             pos_hint: {'center_x': 0.5}
             on_release: 
                 app.change_screen('main_menu')
-                root.manager.transition.direction = "right"
+                root.manager.transition.direction: "right"

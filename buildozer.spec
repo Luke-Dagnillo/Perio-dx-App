@@ -42,7 +42,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,opencv_extras,opencv,numpy,requests,firebase_admin,kivymd,requests,google.auth,pyasn1_modules,pyasn1,rsa,cachetools,cachecontrol,msgpack-python,pillow,io
+requirements = python3,kivy,opencv_extras,opencv,numpy,requests,firebase_admin,kivymd,requests,google.auth,pyasn1_modules,pyasn1,rsa,cachetools,cachecontrol,msgpack-python,pillow
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

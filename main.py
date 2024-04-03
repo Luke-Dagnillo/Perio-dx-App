@@ -21,6 +21,7 @@ from kivy.uix.modalview import ModalView
 from kivy.metrics import dp
 from kivy.properties import StringProperty
 from kivy.utils import platform
+from kivy.resources import resource_find
 # Conditional import for Android-specific functionality
 if platform == 'android':
     from android.permissions import request_permissions, Permission
@@ -48,8 +49,12 @@ from test_result_detail import TestResultDetail
 
 
 def read_text_file(file_path):
-    with open(file_path, 'r', encoding='utf-8') as file:
-        return file.read()
+    full_path = resource_find(file_path)
+    if full_path:
+        with open(full_path, 'r', encoding='utf-8') as file:
+            return file.read()
+    else:
+        return "File not found: " + file_path
 
 # login window
 class LoginWindow(Screen):
@@ -93,7 +98,6 @@ class CameraWindow(Screen):
         # Stop t he camera
         self.ids.camera.play = False
 
-    
 #create test history  window
 class TestHistoryWindow(Screen):
     def on_test_result_tap(self, antigen, result, date):
