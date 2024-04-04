@@ -1,23 +1,12 @@
-import cProfile
+# import cProfile uncomment when needed
 
 # Kivy imports
-import kivy
-from kivy.app import App
-from kivy.uix.widget import Widget
-from kivy.uix.button import Button
-from kivy.uix.camera import Camera
 from kivymd.uix.button import MDFlatButton
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivymd.uix.dialog import MDDialog
-from kivy.clock import Clock
-from kivy.logger import Logger
-from kivy.graphics.texture import Texture
-from kivy.uix.label import Label
 from kivymd.uix.list import TwoLineListItem
-from kivy.uix.modalview import ModalView
 from kivy.metrics import dp
 from kivy.properties import StringProperty
 from kivy.utils import platform
@@ -33,7 +22,6 @@ else:
 
 
 # General Python imports
-import cv2
 import numpy as np
 import datetime
 import requests
@@ -83,7 +71,7 @@ class TestInstructionsWindow(Screen):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.instructions_text = read_text_file("kv/test_instructions_text.txt")
+        self.instructions_text = read_text_file('kv/test_instructions_text.txt')
     pass
 
 
