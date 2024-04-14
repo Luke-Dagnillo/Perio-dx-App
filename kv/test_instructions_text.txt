@@ -1,10 +1,10 @@
 1. Place the gingival crevicular fluid (GCF) on top of the vertical flow immunoassay (VFIA) on the wax openings. 
 2. Wait for 15-20 minutes for the color change readout.
-3. In the app, press "Begin Test" and then "Take Photo" while pointing the camera at the top of the slides. Wait for the readout.
+3. In the app, press "Begin Test" and then "Take Photo" while pointing the camera at the top of the slides and aligning to fit within the guide. Wait for the readout.
 
 
 What do my results mean?
 
 If a consistent "High" concentration of a biomarker is detected it is recommended to seek professional consultation with a medical professional about the possibility of kidney disease and/or heart disease 
-If a consitent "Medium" concetration of biomarker is detected you have moderate risk of kidney/heart disease
+If a consistent "Medium" concentration of biomarker is detected you have a moderate risk of kidney/heart disease
 If a consistent "Low" concentration of biomarker is detected you are at lower risk of kidney/heart disease

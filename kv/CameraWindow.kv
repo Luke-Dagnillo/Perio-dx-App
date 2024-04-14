@@ -1,32 +1,105 @@
+# <CameraWindow>:
+#     name: "camera_window"
+#     BoxLayout:
+#         orientation: 'vertical'
 
+#         FloatLayout:
+#             Camera:
+#                 id: camera
+#                 play: False
+#                 resolution: (1280, 720)
+#                 allow_stretch: True
+#                 canvas.before:
+#                     PushMatrix
+#                     Rotate:
+#                         angle: -90
+#                         origin: self.center
+#                 canvas.after:
+#                     PopMatrix
+
+#             Widget:
+#                 size_hint: None, None
+#                 size: root.size  # Match the size of the FloatLayout
+#                 canvas.after:
+#                     Color:
+#                         rgba: 1, 1, 1, 0.8  # White color with some transparency
+#                     Line:
+#                         # Define the square using minimum of width and height to keep it centered and square
+#                         rectangle: [self.center_x - min(self.width, self.height) / 4, self.center_y - min(self.width, self.height) / 4, min(self.width, self.height) / 2, min(self.width, self.height) / 2]
+#                         width: 2
+
+
+#         # Button container as a separate FloatLayout for more precise control over button positions
+#         FloatLayout: 
+#             size_hint_y: None
+#             height: "120dp"  # Adjust the height as needed to fit your buttons
+
+#             MDFillRoundFlatButton:
+#                 text: "Take Photo"
+#                 size_hint: None, None
+#                 size: "140dp", "48dp"  # Adjust the size as needed
+#                 pos_hint: {'center_x': 0.5, 'center_y': 0.65}  # Adjust 'center_y' to raise/lower the button
+#                 on_release:
+#                     app.capture_image()
+#                     app.change_screen('main_menu')
+#                     root.manager.transition.direction = "right"
+
+#             MDFillRoundFlatButton:
+#                 text: "Back"
+#                 size_hint: None, None
+#                 size: "140dp", "48dp"
+#                 pos_hint: {'center_x': 0.5, 'center_y': 0.25}  # Position it lower than the Take Photo button
+#                 on_release:
+#                     app.change_screen('main_menu')
+#                     root.manager.transition.direction = "right"
 <CameraWindow>:
     name: "camera_window"
     BoxLayout:
         orientation: 'vertical'
-        
-        Camera:
-            id: camera
-            play: False  # Controlled by on_enter and on_leave in the Python code
-            resolution: (1280, 720)  # Adjust as needed
-            allow_stretch: True
-            
-            canvas.before:
-                PushMatrix
-                Rotate:
-                    angle: -90  # Rotate 90 degrees clockwise
-                    origin: self.center  # Use the center of the camera widget as the rotation origin
-            canvas.after:
-                PopMatrix
-                
-        MDFillRoundFlatButton:
-            text: "Take Photo"
-            pos_hint: {'center_x': 0.5}
-            on_release: 
-                app.capture_image()  # Adjust or implement as needed
-                
-        MDFillRoundFlatButton:
-            text: "Back"
-            pos_hint: {'center_x': 0.5}
-            on_release: 
-                app.change_screen('main_menu')
-                root.manager.transition.direction = "right"
+
+        FloatLayout:
+            XCamera:
+                id: camera
+                play: False
+                resolution: (1280, 720)
+                allow_stretch: True
+                canvas.before:
+                    PushMatrix
+                    Rotate:
+                        angle: -90
+                        origin: self.center
+                canvas.after:
+                    PopMatrix
+
+            Widget:
+                size_hint: None, None
+                size: root.size
+                canvas.after:
+                    Color:
+                        rgba: 1, 1, 1, 0.8
+                    Line:
+                        rectangle: [self.center_x - min(self.width, self.height) / 4, self.center_y - min(self.width, self.height) / 4, min(self.width, self.height) / 2, min(self.width, self.height) / 2]
+                        width: 2
+
+        FloatLayout: 
+            size_hint_y: None
+            height: "120dp"
+
+            MDFillRoundFlatButton:
+                text: "Take Photo"
+                size_hint: None, None
+                size: "140dp", "48dp"
+                pos_hint: {'center_x': 0.5, 'center_y': 0.65}
+                on_release:
+                    app.capture_image()
+                    app.change_screen('main_menu')
+                    root.manager.transition.direction = "right"
+
+            MDFillRoundFlatButton:
+                text: "Back"
+                size_hint: None, None
+                size: "140dp", "48dp"
+                pos_hint: {'center_x': 0.5, 'center_y': 0.25}
+                on_release:
+                    app.change_screen('main_menu')
+                    root.manager.transition.direction = "right"

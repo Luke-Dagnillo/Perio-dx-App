@@ -1,83 +1,120 @@
 
 <CreateAccountWindow>:
-    id: create_account
+    id: create_account 
     name: "create account"
-    FloatLayout:
 
+    canvas.before:
+        Color:
+            rgba: 252/255, 238/255, 227/255, 1 # A cream color for the background
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    FloatLayout:
         MDLabel:
             id: create_account_title   
-            text:"Create An Account"
+            text: "Create An Account"
             font_size: 40
             halign: "center"
             size_hint_y: 0.08
-            pos_hint: {'center_x': .5, 'y': .85}
+            pos_hint: {'center_x': 0.5, 'y': .85}
             size_hint: (.8,.1)
             height: self.texture_size[1]
             
-        MDTextField:
-            id: first_name
-            hint_text: "First Name"
-            icon_right: "account"
-            mode: "round"
-            size_hint_x: None
-            width: 200
-            font_size: 30
-            pos_hint: {'center_x': 0.5, 'y': 0.75}
-            size_hint: (.8,.1)
-            
-        MDTextField:
-            id: last_name
-            hint_text: "Last Name"
-            icon_right: "account"
-            mode: "round"
-            size_hint_x: None
-            width: 200
-            font_size: 30
-            pos_hint: {'center_x': 0.5, 'y': 0.65}
-            size_hint: (.8,.1)
+        GridLayout:
+            cols: 1
+            size_hint_y: None
+            height: self.minimum_height
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            spacing: dp(20)
 
-        MDTextField:
-            id: email
-            hint_text: "Email"
-            icon_right: "account"
-            mode: "round"
-            size_hint_x: None
-            width: 200
-            font_size: 30
-            pos_hint: {'center_x': 0.5, 'y': 0.55}
-            size_hint: (.8,.1)
+            # Container for first name field
+            FloatLayout:
+                size_hint_x: .8
+                size_hint_y: None
+                height: dp(48)
 
-        MDTextField:
-            id: password
-            hint_text: "Password"
-            mode: "round"
-            width: 200
-            font_size: 30
-            pos_hint: {'center_x': 0.5, 'y': 0.45}
-            size_hint: (.8,.1)
-            password: True
+                MDTextField:
+                    id: first_name
+                    hint_text: "First Name"
+                    icon_right: "account"
+                    size_hint: .9, None
+                    height: dp(48)
+                    multiline: False
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
-        MDIconButton:
-            icon: "eye-off"
-            pos_hint: {'center_x': 0.87, 'y': 0.465}
-            on_release: 
-                app.toggle_password_visibility(password, self)
+            # Container for last name field
+            FloatLayout:
+                size_hint_x: .8
+                size_hint_y: None
+                height: dp(48)
 
-        MDTextField:
-            id: password_verification
-            hint_text: "Verify Password"
-            mode: "round"
-            width: 200
-            font_size: 30
-            pos_hint: {'center_x': 0.5, 'y': 0.35}
-            size_hint: (.8,.1)
-            password: True
+                MDTextField:
+                    id: last_name
+                    hint_text: "Last Name"
+                    icon_right: "account"
+                    size_hint: .9, None
+                    height: dp(48)
+                    multiline: False
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
-        MDIconButton:
-            icon: "eye-off"
-            pos_hint: {'center_x': 0.87, 'y': 0.365}
-            on_release: 
-                app.toggle_password_visibility(password_verification, self)
+            # Container for email field
+            FloatLayout:
+                size_hint_x: .8
+                size_hint_y: None
+                height: dp(48)
+
+                MDTextField:
+                    id: email
+                    hint_text: "Email"
+                    icon_right: "email"
+                    size_hint: .9, None
+                    height: dp(48)
+                    multiline: False
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            # Container for password field
+            FloatLayout:
+                size_hint_x: .8
+                size_hint_y: None
+                height: dp(48)
+
+                MDTextField:
+                    id: password
+                    hint_text: "Password"
+                    password: True
+                    size_hint: .9, None
+                    height: dp(48)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+                MDIconButton:
+                    icon: "eye-off"
+                    size_hint: None, None
+                    size: dp(48), dp(48)
+                    pos_hint: {'x': 0.9, 'center_y': 0.5}
+                    on_release: app.toggle_password_visibility(password, self)
+
+            # Container for password verification field
+            FloatLayout:
+                size_hint_x: .8
+                size_hint_y: None
+                height: dp(48)
+
+                MDTextField:
+                    id: password_verification
+                    hint_text: "Verify Password"
+                    password: True
+                    size_hint: .9, None
+                    height: dp(48)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+                MDIconButton:
+                    icon: "eye-off"
+                    size_hint: None, None
+                    size: dp(48), dp(48)
+                    pos_hint: {'x': 0.9, 'center_y': 0.5}
+                    on_release: app.toggle_password_visibility(password_verification, self)
+
 
         MDLabel:
             id: create_account_label 
@@ -87,24 +124,26 @@
             halign: "center"
             size_hint_y: 0.08
             pos_hint: {'center_x': .5, 'y': .25}
-            size_hint: (.8,.1)
+            size_hint: (.6,.1)
             height: self.texture_size[1]
 
-        Button:
+        MDFillRoundFlatButton:
             text: "Create Account"
-            font_size: 40
-            background_color: (0/255, 239/255, 255/255)
-            pos_hint: {'center_x': 0.5, 'y': 0.15}
-            size_hint: (.8,.1)
+            font_size: sp(20)
+            md_bg_color: 130/255, 209/255, 217/255, 1  # Teal Button
+            text_color: 0, 0, 0, 1  # Black Text
+            pos_hint: {'center_x': 0.5, 'y': 0.165}
+            size_hint: (.6,.1)
             on_release: 
                 app.create_account()
-                
-        Button:
+
+        MDFillRoundFlatButton:
             text: "Back"
-            font_size: 40
-            background_color: (0/255, 239/255, 255/255)
+            font_size: sp(20)
+            md_bg_color: 104/255, 104/255, 174/255, 1 # Purple button
+            text_color: 0, 0, 0, 1  # Black Text
             pos_hint: {'center_x': 0.5, 'y': 0.05}
-            size_hint: (.8,.1)
+            size_hint: (.6,.1)
             on_release: 
                 app.change_screen("login_screen")
                 root.manager.transition.direction = "right"

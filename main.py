@@ -2,6 +2,7 @@
 
 # Kivy imports
 from kivymd.uix.button import MDFlatButton
+from kivy.uix.button import Button
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 from kivy.lang import Builder
@@ -11,9 +12,11 @@ from kivy.metrics import dp
 from kivy.properties import StringProperty
 from kivy.utils import platform
 from kivy.resources import resource_find
+from kivy_garden.xcamera import XCamera
+
 # Conditional import for Android-specific functionality
 if platform == 'android':
-    from android.permissions import request_permissions, Permission
+    from android.permissions import request_permissions, Permission 
     # Define any Android-specific functionality here
 else:
     # Mock or no-op versions of Android-specific functionality for non-Android platforms
@@ -28,6 +31,8 @@ import requests
 import json 
 from firebase_admin import db
 from PIL import Image
+import  os
+
 
 
 # Custom imports
@@ -43,6 +48,10 @@ def read_text_file(file_path):
             return file.read()
     else:
         return "File not found: " + file_path
+    
+# Define the RoundedButton in Python
+class RoundedButton(Button):
+    pass
 
 # login window
 class LoginWindow(Screen):
@@ -168,6 +177,7 @@ class MainApp(MDApp):
             # Now run the red recognition algorithm on this image
             red_recognizer = RedRecognition(image_path)
             result = red_recognizer.run()
+            os.remove(image_path)
 
             if result is not None:
                 antigen, concentration_level = result

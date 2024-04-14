@@ -1,59 +1,74 @@
-
 <LoginWindow>:
-    id: login
+    id: login_window
     name: "login"
-    #md_bg_color: [204/255, 153/255, 255/255,1]
-    # MDCard:
-    #     size_hint: None, None
-    #     size: 450, 800 
-    #     pos_hint: {"center_x": .5, "center_y":.5}
-    #     elevation: 15
-    #     #md_bg_color: [229/255, 204/255, 255/255,1]
-    #     padding: 25
-    #     spacing: 25 
-    #     orientation: 'vertical'
 
-    #adding items to the card
+    canvas.before:
+        Color:
+            rgba: 252/255, 238/255, 227/255, 1 # A cream color for the background
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
     FloatLayout:
-        
         Image:
             source: 'graphics/PerioLogo.png'
             size_hint: None, None
-            pos_hint: {"center_x": .5, "y":.55}
-            size_hint: .5, .5
+            pos_hint: {"center_x": .5, "y":.45}
+            size_hint: .6, .6
 
-        MDTextField:
-            id: email
-            hint_text: "email"
-            icon_right: "account"
-            mode: "round"
-            size_hint_x: None
-            width: 200
-            font_size: 30
-            pos_hint: {'center_x': .5,'y': .5}
-            size_hint: (.8,.1)
 
         MDLabel:
-            id: blank
-            text: "User and/or password required"
-            pos_hint: {'x': .2,'y': .4}
+            id: login_title   
+            text:"Log In"
+            font_size: 40
+            halign: "center"
+            size_hint_y: 0.08
+            pos_hint: {'center_x': .5, 'y': .9}
             size_hint: (.8,.1)
+            height: self.texture_size[1]
             
-        MDTextField:
-            id: password
-            hint_text: "password"
-            mode: "round"
-            width: 200
-            font_size: 30
-            pos_hint: {'center_x': .5,'y': .3}
-            size_hint: (.8,.1)
-            password: True
+        # Use GridLayout for organizing text fields and icons
+        GridLayout:
+            cols: 1
+            size_hint_y: None
+            height: self.minimum_height
+            pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+            spacing: dp(10)
 
-        MDIconButton:
-            icon: "eye-off"
-            pos_hint: {'center_x': 0.87, 'y': 0.31}
-            on_release: 
-                app.toggle_password_visibility(password, self)
+            # Container for email field (with margin)
+            FloatLayout:
+                size_hint_x: .8
+                size_hint_y: None
+                height: dp(48)
+
+                MDTextField:
+                    id: email
+                    hint_text: "Email"
+                    icon_right: "email"
+                    size_hint: .9, None  # Reduce width to 90% to create margins
+                    height: dp(48)
+                    multiline: False
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}  # Center horizontally
+
+            # Container for password field and visibility icon
+            FloatLayout:
+                size_hint_x: .8
+                size_hint_y: None
+                height: dp(48)
+
+                MDTextField:
+                    id: password
+                    hint_text: "Password"
+                    password: True
+                    size_hint: .9, None  # Reduce width to 75%
+                    height: dp(48)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}  # Center horizontally
+
+                MDIconButton:
+                    icon: "eye-off"
+                    size_hint: None, None
+                    size: dp(48), dp(48)
+                    pos_hint: {'x': 0.9, 'center_y': 0.5}  # Position near the right edge
 
         MDLabel:
             id: error
@@ -62,24 +77,26 @@
             pos_hint: {'x': .2,'y': .23}
             size_hint: (.8,.1)
 
-        Button:
+        MDFillRoundFlatButton:
             text: "Log In"
-            font_size: 40
-            background_color: (0/255, 239/255, 255/255)
-            pos_hint: {'center_x': .5,'y': .15}
-            size_hint: (.8,.1)
+            font_size: sp(20)
+            background_normal: ''  # This disables the default button background
+            md_bg_color: 130/255, 209/255, 217/255, 1 # Teal Button
+            text_color: 0, 0, 0, 1  
+            pos_hint: {'center_x': .5,'y': .165}
+            size_hint: (.6,.1)
             on_release: 
                 app.login_user(root.ids.email.text, root.ids.password.text)
-                # app.change_screen("main_menu")
                 root.manager.transition.direction = "left"
 
-                
-        Button:
+        MDFillRoundFlatButton:
             text: "Create An Account"
-            font_size: 40
-            background_color: (0/255, 239/255, 255/255)
+            font_size: sp(20)
+            background_normal: ''  # This disables the default button background
+            md_bg_color: 255/255, 255/255, 255/255, 1 # White Button
+            text_color: 0, 0, 0, 1   
             pos_hint: {'center_x': .5,'y': .05}
-            size_hint: (.8,.1)
+            size_hint: (.6,.1)
             on_release: 
                 app.change_screen("create_account")
                 root.manager.transition.direction = "left"
